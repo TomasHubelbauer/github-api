@@ -1,25 +1,55 @@
 import fetch, { Response } from 'node-fetch';
 
-async function* getArray<T>(url: string): AsyncIterableIterator<Readonly<T>> {
+async function* get<T>(url: string): AsyncIterableIterator<Readonly<T>> {
+  let attempt = 1;
   do {
-    // TODO: Handle `response.ok` being false - retry policy
     const response = await fetch('https://api.github.com/' + url, { headers: { 'Accept': 'application/vnd.github.mercy-preview+json' /* `topics` */ } });
-    if (!response.ok) {
-      throw new Error('Retry policy is not implemented.');
-    }
-
-    const data = await response.json() as T[];
-    yield* data;
-
-    // TODO: Figure out if remaining zero means we got the last unlimited or the first rate limited response (would `response.ok` be negative then?)
     const rateLimit = parseRateLimit(response);
-    if (rateLimit.remaining === 0) {
-      throw new Error('Waiting until rate limit reset is not implemented.');
+    if (response.ok) {
+      yield await response.json() as T;
+
+      const links = parseLinks(response);
+      if (rateLimit.remaining === 0 && links.next !== undefined) {
+        // Wait for the rate limit to reset before trying to go for the next page
+        await wait(rateLimit.reset);
+      }
+
+      url = links.next;
+      attempt = 0;
+      continue;
     }
 
-    const links = parseLinks(response);
-    url = links.next;
+    if (attempt === 10) {
+      throw new Error('Too many attempts in a row failed');
+    }
+
+    // Note that this means the request was rate limited and did not provide data
+    if (response.status === 403 && rateLimit.remaining === 0) {
+      await wait(rateLimit.reset);
+      attempt++;
+      // TODO: Wait with backoff
+      continue;
+    }
+
+    // Note that this means the request was load balanced and did not provide data
+    if (response.status === 502 && rateLimit.limit === 0 && rateLimit.remaining === 0 /* TODO: && rateLimit.reset === '1970-01-01T00:00:00.000Z' */) {
+      attempt++;
+      // TODO: Wait with backoff
+      continue;
+    }
+
+    throw new Error('Request failed with an unknown error');
   } while (url !== undefined);
+}
+
+async function* getArray<T>(url: string): AsyncIterableIterator<Readonly<T>> {
+  for await (const page of get<T[]>(url)) {
+    yield* page;
+  }
+}
+
+function wait(reset: Date) {
+  return new Promise(resolve => window.setTimeout(resolve, reset.valueOf() - Date.now()));
 }
 
 function parseRateLimit(response: Response): Readonly<RateLimit> {
