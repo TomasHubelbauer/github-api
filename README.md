@@ -15,3 +15,4 @@ for await (let repository of repositories) {
 ```
 
 - [ ] Finalize including code comments
+- [ ] See if GitHub API stil gives watchers count (it's hidden on the site now) and in any case find a way to check if I'm the one watcher/starrer of the repo, not just that it has a non-zero number
