@@ -14,6 +14,6 @@ for await (let repository of repositories) {
 }
 ```
 
-- [ ] Finalize including code comments
-- [ ] See if GitHub API stil gives watchers count (it's hidden on the site now) and in any case find a way to check if I'm the one watcher/starrer of the repo, not just that it has a non-zero number
-- [ ] Find repos which I am watching but they have releases so I could just watch the releases
+- Finalize including code comments
+- Improve the watch notifications to recognize if I'm a watcher not just that the repo has at least one watcher (same for starrers)
+- Find repos which I am watching but they have releases so I could just watch the releases
