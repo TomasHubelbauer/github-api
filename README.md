@@ -14,6 +14,16 @@ for await (let repository of repositories) {
 }
 ```
 
-- Finalize including code comments
-- Improve the watch notifications to recognize if I'm a watcher not just that the repo has at least one watcher (same for starrers)
-- Find repos which I am watching but they have releases so I could just watch the releases
+## To-Do
+
+There are also `TODO` comments in the code.
+
+Pull out the checks to a different repository using this as a library.
+
+Add another check - if the repository has mirroring set up in GitLab.
+
+Improve the watch notifications to recognize if I'm a watcher not just
+that the repo has at least one watcher (same for starrers).
+
+Find repos which I am watching but they have releases so I could just
+watch the releases.
