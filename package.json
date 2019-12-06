@@ -1,27 +1,8 @@
 {
   "name": "github-api",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.ts",
   "scripts": {
-    "start": "ts-node index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/TomasHubelbauer/github-api.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/TomasHubelbauer/github-api/issues"
-  },
-  "homepage": "https://github.com/TomasHubelbauer/github-api#readme",
-  "devDependencies": {
-    "@types/node-fetch": "^2.3.4",
-    "ts-node": "^8.1.0",
-    "typescript": "^3.4.5"
+    "start": "node index.js",
+    "test": "node test/index.js"
   },
   "dependencies": {
     "node-fetch": "^2.6.0"

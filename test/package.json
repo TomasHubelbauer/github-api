@@ -1,0 +1,9 @@
+{
+  "name": "test",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "github-api": "git+https://github.com/TomasHubelbauer/github-api.git"
+  }
+}

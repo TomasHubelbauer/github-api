@@ -71,52 +71,6 @@ function parseLinks(response: Response): Readonly<Links> {
   return links;
 }
 
-void async function main() {
-  const repositories = getArray<Repository>('users/tomashubelbauer/repos');
-  for await (let repository of repositories) {
-    if (repository.stargazers_count === 0) {
-      console.log(repository.name, 'is not starred');
-    }
-
-    if (repository.watchers_count === 0) {
-      console.log(repository.name, 'is not watched');
-    }
-
-    if (repository.fork) {
-      console.log(repository.name, 'is a fork');
-    }
-
-    // TODO: If the repository has GitHub Pages, check this matches their URL (or custom domain - maybe by CNAME file?)
-    if (repository.homepage === null) {
-      console.log(repository.name, 'does not have a home page');
-    }
-
-    if (repository.description === null) {
-      console.log(repository.name, 'does not have a description');
-    }
-
-    // TODO: Decide how to handle marking repositories for the site with topics and check that
-    // TODO: See if `topics` can ever be a valid but empty array of if the `undefined` check suffices
-    if (repository.topics === undefined || repository.topics.length === 0) {
-      console.log(repository.name, 'has no topics');
-    }
-
-    // TODO: Figure out how to handle abbreviations in titles which should be okay
-    // TODO: Find a way to fetch the README and pull the main heading from it
-    const title = repository.name; // TODO: Slugify the title
-    if (title !== repository.name) {
-      console.log(repository.name, 'title does not match slug');
-    }
-
-    // TODO: Figure out if I need both of these
-    if (repository.open_issues > 0 || repository.open_issues_count > 0) {
-      console.log(repository.name, 'has open issues');
-    }
-
-    // TODO: Add a method for getting repositories I watch but which have releases so that I can watch just the releases
-  }
-}()
-
 type RateLimit = {
   limit: Number;
   remaining: Number;

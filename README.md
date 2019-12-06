@@ -14,6 +14,15 @@ for await (let repository of repositories) {
 }
 ```
 
+## Development
+
+The test program in `test` depends on the main library using a Git dependency.
+To avoid having to launder the library through GitHub for each change, use
+linking:
+
+1. Go to the root repository directory and run `npm link`
+2. Go to the `test` directory and run `npm link github-api`
+
 ## To-Do
 
 ### Pull out the checks to a different repository using this as a library
