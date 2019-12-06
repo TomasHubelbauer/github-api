@@ -14,7 +14,7 @@ Useful for long-running scripts.
 
 ```js
 const GitHub = require('github-api');
-for await (let repository of GitHub.getUsersUserRepos('TomasHubelbauer')) {
+for await (let repository of GitHub.getUsersUserRepos(undefined, 'TomasHubelbauer')) {
   // …
 }
 ```
@@ -40,3 +40,5 @@ Pass the integration PAT in for a rate limit of 5000.
 
 Less important now when the PATs in GitHub Actions workflows have the rate limit
 of 5000, but will still be useful for public-only read accesses with no PAT.
+
+### Add a list of the supported API methods to the readme
