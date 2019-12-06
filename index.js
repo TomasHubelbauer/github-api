@@ -5,13 +5,10 @@ let limit;
 module.exports = {
   // TODO: Split into two instead of the `Array.isArray` heuristic?: getPaged + get
   // TODO: Add the rate-limit awaiting logic from `index.ts`
+  // TODO: Add a callback for the rate limit and reset waits reporting
   async *get(token, url, accept) {
     let links = { next: { url, page: 1 } };
     do {
-      if (limit && limit.remaining < 1000) {
-        console.log(`Scraping the page ${links.next.page} of ${links.last ? links.last.page : 'unknown'} of ${url} with ${limit ? `a rate limit ${limit.remaining} of ${limit.limit} resetting ${new Date(limit.reset * 1000).toISOString()}` : 'an unknown rate limit'}…`);
-      }
-
       const response = await fetch(links.next.url, { headers: { Authorization: token ? `token ${token}` : undefined, Accept: accept } });
       if (!response.ok) {
         throw new Error(`Failing at ${links.next.url} non-ok ${response.status} ${response.statusText} response!`);
