@@ -25,14 +25,8 @@ linking:
 
 ## To-Do
 
-### Pull out the checks to a different repository using this as a library
+### Add a GitHub actions workflow running the test
 
-### Add another check - if the repository has mirroring set up in GitLab
+Pass the integration PAT in for a rate limit of 5000.
 
-### Improve the watch notifications to recognize if I'm a watcher
-
-Not just that the repo has at least one watcher (same for starrers).
-
-### Find repos which I am watching but they have releases
-
-So I could just watch the releases.
+### Use this in GitHub Digest
