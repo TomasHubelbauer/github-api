@@ -36,9 +36,4 @@ Pass the integration PAT in for a rate limit of 5000.
 
 ### Use this in GitHub Digest
 
-### Transfer over the rate limit reset wait logic from `index.ts` and delete it
-
-Less important now when the PATs in GitHub Actions workflows have the rate limit
-of 5000, but will still be useful for public-only read accesses with no PAT.
-
 ### Add a list of the supported API methods to the readme
