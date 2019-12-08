@@ -85,6 +85,4 @@ linking:
 
 Pass the integration PAT in for a rate limit of 5000.
 
-### Use this in GitHub Digest
-
 ### Add a list of the supported API methods to the readme
