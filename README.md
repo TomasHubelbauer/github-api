@@ -36,7 +36,10 @@ If the API URL returns an object, the iterator yields once, only the returned ob
 `onLimitChange` is a callback for the rate limit information.
 
 - `remaining` the number of remaining requests in the limit (until the reset)
-- `limit` the total number of requests available per the limit reset period (60 or 5000)
+- `limit` the total number of requests available per the limit reset period
+  - With no PAT, the limit is 600
+  - With a custom PAT, the limit is 5000
+  - With an integration PAT (`secrets.GITHUB_TOKEN`), the limit is 1000
 - `reset` a `Date` object of the next API rate limit reset
 
 ```js
@@ -78,9 +81,3 @@ linking:
 
 1. Go to the root repository directory and run `npm link`
 2. Go to the `test` directory and run `npm link github-api`
-
-## To-Do
-
-### Add a GitHub actions workflow running the test
-
-Pass the integration PAT in for a rate limit of 5000.
