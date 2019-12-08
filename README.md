@@ -84,5 +84,3 @@ linking:
 ### Add a GitHub actions workflow running the test
 
 Pass the integration PAT in for a rate limit of 5000.
-
-### Add a list of the supported API methods to the readme
