@@ -81,3 +81,7 @@ linking:
 
 1. Go to the root repository directory and run `npm link`
 2. Go to the `test` directory and run `npm link github-api`
+
+## To-Do
+
+### Add more API methods
