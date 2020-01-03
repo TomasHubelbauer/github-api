@@ -9,7 +9,7 @@ module.exports = {
     let attempt = 1;
     do {
       if (onPageChange) {
-        onPageChange({ page: links.next.page, total: links.last ? links.last.page : undefined, url, attempt });
+        onPageChange({ page: links.next.page, total: links.last ? links.last.page : undefined, url: links.next.url, attempt });
       }
 
       const response = await fetch(links.next.url, { headers: { Authorization: token ? `token ${token}` : undefined, Accept: accept } });
