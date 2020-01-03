@@ -16,7 +16,8 @@ Useful for long-running scripts.
 
 ```js
 const GitHub = require('github-api');
-for await (let repository of GitHub.getUsersUserRepos(undefined, 'TomasHubelbauer')) {
+// `token` can be left `undefined` to use the API with public access rate limits
+for await (let repository of GitHub.getUsersUserRepos('TomasHubelbauer', { token })) {
   // …
 }
 ```
