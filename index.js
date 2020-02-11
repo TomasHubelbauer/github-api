@@ -4,7 +4,7 @@ let limit;
 
 module.exports = {
   // TODO: Split into two instead of the `Array.isArray` heuristic?: getPaged + get
-  async *get(url, { token, accept, onLimitChange, onPageChange }) {
+  async *get(url, { token, accept, onLimitChange, onPageChange } = {}) {
     let links = { next: { url, page: 1 } };
     let attempt = 1;
     do {
