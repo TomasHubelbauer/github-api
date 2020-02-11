@@ -91,10 +91,6 @@ linking:
 
 ## To-Do
 
-### Make the `options` object be optional
-
-So that it can be left out when not providing the token instead of `{}`.
-
 ### Add more API methods
 
 ### Report both the original API URL and the current, paged URL in `onPageChange`
