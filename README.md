@@ -22,7 +22,13 @@ for await (let repository of GitHub.getUsersUserRepos('TomasHubelbauer', { token
 }
 ```
 
-## API
+- [`get(url, { token, accept, onLimitChange, onPageChange }): AsyncIterableIterator`](#https://github.com/TomasHubelbauer/github-api#geturl--token-accept-onlimitchange-onpagechange--asynciterableiterator)
+- [`getUserRepos({ type, token, onLimitChange, onPageChange }): AsyncIterableIterator`](#https://github.com/TomasHubelbauer/github-api#getuserrepos-type-token-onlimitchange-onpagechange--asynciterableiterator)
+- [`getUsersUserRepos(user, { token, onLimitChange, onPageChange }): AsyncIterableIterator`](#https://github.com/TomasHubelbauer/github-api#getusersuserreposuser--token-onlimitchange-onpagechange--asynciterableiterator)
+- [`getReposOwnerRepoStargazers(fullName, { token, onLimitChange, onPageChange }): AsyncIterableIterator`](#https://github.com/TomasHubelbauer/github-api#getreposownerrepostargazersfullname--token-onlimitchange-onpagechange--asynciterableiterator)
+- [`getReposOwnerRepoWatchers(fullName, { token, onLimitChange, onPageChange }): AsyncIterableIterator`](#https://github.com/TomasHubelbauer/github-api#getreposownerrepowatchersfullname--token-onlimitchange-onpagechange--asynciterableiterator)
+- [`getReposOwnerRepoProjects(fullName, { token, onLimitChange, onPageChange }); AsyncIterableIterator`](#https://github.com/TomasHubelbauer/github-api#getreposownerrepoprojectsfullname--token-onlimitchange-onpagechange--asynciterableiterator)
+- [`patchReposOwnerRepo(fullName, token, body): Promise<void>`](#https://github.com/TomasHubelbauer/github-api#patchreposownerrepofullname-token-body-promisevoid)
 
 ### `get(url, { token, accept, onLimitChange, onPageChange }): AsyncIterableIterator`
 
