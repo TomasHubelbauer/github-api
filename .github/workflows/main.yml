@@ -15,4 +15,4 @@ jobs:
         # Run the script
         cd test
         npm install
-        node index.js ${{secrets.GITHUB_TOKEN}}
+        node . ${{secrets.GITHUB_TOKEN}}
