@@ -23,7 +23,7 @@ module.exports = {
           attempt++;
 
           // TODO: Wait with backoff
-          await new Promise(resolve => window.setTimeout(resolve, limit.reset.valueOf() - Date.now()));
+          await new Promise(resolve => setTimeout(resolve, limit.reset.valueOf() - Date.now()));
 
           // Retry with the same URL but an increased attempt number
           continue;
