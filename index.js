@@ -101,7 +101,13 @@ module.exports = {
   },
 
   getUsersUserRepos(user, { token, ...rest } = {}) {
+    // Include the repository topics using the Mercy preview flag
     return this.get(`https://api.github.com/users/${user}/repos`, { token, accept: 'application/vnd.github.mercy-preview+json', ...rest });
+  },
+    
+  getUsersUserStarred(user, { token, ...rest } = {}) {
+    // Include the repository topics using the Mercy preview flag
+    return this.get(`https://api.github.com/users/${user}/starred`, { token, accept: 'application/vnd.github.mercy-preview+json', ...rest });
   },
 
   getReposOwnerRepoStargazers(fullName, { token, ...rest } = {}) {
