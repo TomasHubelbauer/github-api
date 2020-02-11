@@ -15,9 +15,9 @@ Useful for long-running scripts.
 ## Usage
 
 ```js
-const GitHub = require('github-api');
+const github = require('github-api');
 // `token` can be left `undefined` to use the API with public access rate limits
-for await (let repository of GitHub.getUsersUserRepos('TomasHubelbauer', { token })) {
+for await (const repository of github.getUsersUserRepos('TomasHubelbauer', { token })) {
   // …
 }
 ```
@@ -90,6 +90,10 @@ linking:
 2. Go to the `test` directory and run `npm link github-api`
 
 ## To-Do
+
+### Make the `options` object be optional
+
+So that it can be left out when not providing the token instead of `{}`.
 
 ### Add more API methods
 
