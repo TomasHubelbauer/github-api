@@ -119,7 +119,12 @@ module.exports = {
   },
 
   getReposOwnerRepoProjects(fullName, { token, ...rest } = {}) {
+    // Include the repository projects using the Inertia preview flag
     return this.get(`https://api.github.com/repos/${fullName}/projects`, { token, accept: 'application/vnd.github.inertia-preview+json', ...rest });
+  },
+    
+  getReposOwnerRepoReleases(fullName, { token, ...rest } = {}) {
+    return this.get(`https://api.github.com/repos/${fullName}/releases`, { token, ...rest });
   },
 
   async patchReposOwnerRepo(fullName, token, body) {
