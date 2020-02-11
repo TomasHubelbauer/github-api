@@ -109,3 +109,5 @@ linking:
 2. Go to the `test` directory and run `npm link github-api`
 
 ## To-Do
+
+### Add GitHub API docs URLs to each API method in readme and JSDoc
