@@ -24,6 +24,7 @@ for await (const repository of github.getUsersUserRepos('TomasHubelbauer', { tok
 
 - [`get(url, { token, accept, onLimitChange, onPageChange }): AsyncIterableIterator`](#geturl--token-accept-onlimitchange-onpagechange--asynciterableiterator)
 - [`getUserRepos({ type, token, onLimitChange, onPageChange }): AsyncIterableIterator`](#getuserrepos-type-token-onlimitchange-onpagechange--asynciterableiterator)
+- [`getUserStarred({ sort, token, onLimitChange, onPageChange }): AsyncIterableIterator`](#getuserstarred-sort-token-onlimitchange-onpagechange--asynciterableiterator)
 - [`getUsersUserRepos(user, { token, onLimitChange, onPageChange }): AsyncIterableIterator`](#getusersuserreposuser--token-onlimitchange-onpagechange--asynciterableiterator)
 - [`getReposOwnerRepoStargazers(fullName, { token, onLimitChange, onPageChange }): AsyncIterableIterator`](#getreposownerrepostargazersfullname--token-onlimitchange-onpagechange--asynciterableiterator)
 - [`getReposOwnerRepoWatchers(fullName, { token, onLimitChange, onPageChange }): AsyncIterableIterator`](#getreposownerrepowatchersfullname--token-onlimitchange-onpagechange--asynciterableiterator)
@@ -69,6 +70,8 @@ function onPageChange({ page, total, url, attempt }) {
 ```
 
 ### `getUserRepos({ type, token, onLimitChange, onPageChange }): AsyncIterableIterator`
+
+### `getUserStarred({ sort, token, onLimitChange, onPageChange }): AsyncIterableIterator`
 
 ### `getUsersUserRepos(user, { token, onLimitChange, onPageChange }): AsyncIterableIterator`
 
