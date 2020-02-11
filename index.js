@@ -86,6 +86,17 @@ module.exports = {
       url += '?type=' + type;
     }
 
+    // Include the repository topics using the Mercy preview flag
+    return this.get(url, { token, accept: 'application/vnd.github.mercy-preview+json', ...rest });
+  },
+    
+  getUserStarred({ sort, token, ...rest } = {}) {
+    let url = 'https://api.github.com/user/starred';
+    if (sort) {
+      url += '?sort=' + sort;
+    }
+
+    // Include the repository topics using the Mercy preview flag
     return this.get(url, { token, accept: 'application/vnd.github.mercy-preview+json', ...rest });
   },
 
