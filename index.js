@@ -9,7 +9,15 @@ module.exports = {
     let attempt = 1;
     do {
       if (onPageChange) {
-        onPageChange({ page: links.next.page, total: links.last ? links.last.page : undefined, url: links.next.url, attempt });
+        const pageNumber = links.next.page;
+        const pageCount = links.last ? links.last.page : undefined;
+        const pageUrl = links.next.url;
+        if (onPageChange === true) {
+          console.log(pageNumber, '/', pageCount || 'unknown', 'of', url, 'attempt', attempt, '(', pageUrl, ')');
+        }
+        else {
+          onPageChange({ pageNumber, pageCount, url, pageUrl, attempt });
+        }
       }
 
       const response = await fetch(links.next.url, { headers: { Authorization: token ? `token ${token}` : undefined, Accept: accept } });
@@ -30,7 +38,7 @@ module.exports = {
         }
 
         // Note that this means the request was load balanced and did not provide data
-        if (response.status === 502 && limit.limit === 0 && limit.remaining === 0 /* TODO: `&& limit.reset === '1970-01-01T00:00:00.000Z'` */) {
+        if (response.status === 502 && (limit === undefined || (limit.limit === 0 && limit.remaining === 0 /* TODO: `&& limit.reset === '1970-01-01T00:00:00.000Z'` */))) {
           attempt++;
 
           // TODO: Wait with backoff
@@ -70,7 +78,12 @@ module.exports = {
       };
 
       if (onLimitChange) {
-        onLimitChange(limit);
+        if (onLimitChange === true) {
+          console.log(limit.remaining, 'of', limit.limit, 'resetting at', limit.reset);
+        }
+        else {
+          onLimitChange(limit);
+        }
       }
 
       if (limit.remaining === 0 && links.next !== undefined) {
@@ -89,7 +102,7 @@ module.exports = {
     // Include the repository topics using the Mercy preview flag
     return this.get(url, { token, accept: 'application/vnd.github.mercy-preview+json', ...rest });
   },
-    
+
   getUserStarred({ sort, token, ...rest } = {}) {
     let url = 'https://api.github.com/user/starred';
     if (sort) {
@@ -104,7 +117,7 @@ module.exports = {
     // Include the repository topics using the Mercy preview flag
     return this.get(`https://api.github.com/users/${user}/repos`, { token, accept: 'application/vnd.github.mercy-preview+json', ...rest });
   },
-    
+
   getUsersUserStarred(user, { token, ...rest } = {}) {
     // Include the repository topics using the Mercy preview flag
     return this.get(`https://api.github.com/users/${user}/starred`, { token, accept: 'application/vnd.github.mercy-preview+json', ...rest });
@@ -122,7 +135,7 @@ module.exports = {
     // Include the repository projects using the Inertia preview flag
     return this.get(`https://api.github.com/repos/${fullName}/projects`, { token, accept: 'application/vnd.github.inertia-preview+json', ...rest });
   },
-    
+
   getReposOwnerRepoReleases(fullName, { token, ...rest } = {}) {
     return this.get(`https://api.github.com/repos/${fullName}/releases`, { token, ...rest });
   },

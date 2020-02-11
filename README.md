@@ -43,7 +43,7 @@ If the API URL returns an object, the iterator yields once, only the returned ob
 
 `accept` is for the `Accept` HTTP header for features in preview.
 
-`onLimitChange` is a callback for the rate limit information.
+`onLimitChange` is a callback for the rate limit information, or `true` for `console.log`
 
 - `remaining` the number of remaining requests in the limit (until the reset)
 - `limit` the total number of requests available per the limit reset period
@@ -58,16 +58,17 @@ function onLimitChange({ remaining, limit, reset }) {
 }
 ```
 
-`onPageChange` is a callback for the page being fetched of a collection request
+`onPageChange` is a callback for the page being fetched of a collection request, or `true` for `console.log`
 
-- `page` is the number of the page being fetched currently
-- `total` is the number of pages until all the items have been yield - not known on page #1
-- `url` the API URL being fetched
+- `pageNumber` is the number of the page being fetched currently
+- `pageCount` is the number of pages until all the items have been yield - not known on page #1
+- `callUrl` the API URL being fetched
+- `pageUrl` the API URL of the current page being fetched
 - `attempt` the attempt number in case the request failed and is being retried
 
 ```js
-function onPageChange({ page, total, url, attempt }) {
-  console.log(page, '/', total, 'of', url, 'attempt', attempt);
+function onPageChange({ pageNumber, pageCount, url, pageUrl, attempt }) {
+  console.log(pageNumber, '/', pageCount || 'unknown', 'of', url, 'attempt', attempt, '(', pageUrl, ')');
 }
 ```
 
@@ -99,5 +100,3 @@ linking:
 2. Go to the `test` directory and run `npm link github-api`
 
 ## To-Do
-
-### Report both the original API URL and the current, paged URL in `onPageChange`
