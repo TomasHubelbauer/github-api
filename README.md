@@ -30,6 +30,7 @@ for await (const repository of github.getUsersUserRepos('TomasHubelbauer', { tok
 - [`getReposOwnerRepoStargazers(fullName, { token, onLimitChange, onPageChange }): AsyncIterableIterator`](#getreposownerrepostargazersfullname--token-onlimitchange-onpagechange--asynciterableiterator)
 - [`getReposOwnerRepoWatchers(fullName, { token, onLimitChange, onPageChange }): AsyncIterableIterator`](#getreposownerrepowatchersfullname--token-onlimitchange-onpagechange--asynciterableiterator)
 - [`getReposOwnerRepoProjects(fullName, { token, onLimitChange, onPageChange }); AsyncIterableIterator`](#getreposownerrepoprojectsfullname--token-onlimitchange-onpagechange--asynciterableiterator)
+- [`getReposOwnerRepoReleases(fullName, { token, onLimitChange, onPageChange }); AsyncIterableIterator`](#getreposownerreporeleasesfullname--token-onlimitchange-onpagechange--asynciterableiterator)
 - [`patchReposOwnerRepo(fullName, token, body): Promise<void>`](#patchreposownerrepofullname-token-body-promisevoid)
 
 ### `get(url, { token, accept, onLimitChange, onPageChange }): AsyncIterableIterator`
@@ -83,6 +84,8 @@ function onPageChange({ page, total, url, attempt }) {
 ### `getReposOwnerRepoWatchers(fullName, { token, onLimitChange, onPageChange }): AsyncIterableIterator`
 
 ### `getReposOwnerRepoProjects(fullName, { token, onLimitChange, onPageChange }); AsyncIterableIterator`
+
+### `getReposOwnerRepoReleases(fullName, { token, onLimitChange, onPageChange }); AsyncIterableIterator`
 
 ### `patchReposOwnerRepo(fullName, token, body): Promise<void>`
 
