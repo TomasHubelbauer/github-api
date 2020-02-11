@@ -33,17 +33,9 @@ for await (const repository of github.getUsersUserRepos('TomasHubelbauer', { tok
 - [`getReposOwnerRepoReleases(fullName, { token, onLimitChange, onPageChange }); AsyncIterableIterator`](#getreposownerreporeleasesfullname--token-onlimitchange-onpagechange--asynciterableiterator)
 - [`patchReposOwnerRepo(fullName, token, body): Promise<void>`](#patchreposownerrepofullname-token-body-promisevoid)
 
-### `get(url, { token, accept, onLimitChange, onPageChange }): AsyncIterableIterator`
+### `onLimitChange` callback
 
-Returns an async iterator. If the API URL returns a collection, the iterator yields the
-collections items one by one across the pages until all the pages have been drained.
-If the API URL returns an object, the iterator yields once, only the returned object.
-
-`token` is for the GitHub API PAT which bumps the rate limit from 60 to 5000.
-
-`accept` is for the `Accept` HTTP header for features in preview.
-
-`onLimitChange` is a callback for the rate limit information, or `true` for `console.log`
+`onLimitChange` is a callback for the rate limit information, or `true` for `console.log`.
 
 - `remaining` the number of remaining requests in the limit (until the reset)
 - `limit` the total number of requests available per the limit reset period
@@ -58,7 +50,9 @@ function onLimitChange({ remaining, limit, reset }) {
 }
 ```
 
-`onPageChange` is a callback for the page being fetched of a collection request, or `true` for `console.log`
+### `onPageChange` callback
+
+`onPageChange` is a callback for the page being fetched of a collection request, or `true` for `console.log`.
 
 - `pageNumber` is the number of the page being fetched currently
 - `pageCount` is the number of pages until all the items have been yield - not known on page #1
@@ -71,6 +65,15 @@ function onPageChange({ pageNumber, pageCount, url, pageUrl, attempt }) {
   console.log(pageNumber, '/', pageCount || 'unknown', 'of', url, 'attempt', attempt, '(', pageUrl, ')');
 }
 ```
+
+### `get(url, { token, accept, onLimitChange, onPageChange }): AsyncIterableIterator`
+
+Returns an async iterator. If the API URL returns a collection, the iterator yields the
+collections items one by one across the pages until all the pages have been drained.
+If the API URL returns an object, the iterator yields once, only the returned object.
+
+- `token` is for the GitHub API PAT which bumps the rate limit from 60 to 5000.
+- `accept` is for the `Accept` HTTP header for features in preview.
 
 ### `getUserRepos({ type, token, onLimitChange, onPageChange }): AsyncIterableIterator`
 
