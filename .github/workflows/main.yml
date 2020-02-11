@@ -13,6 +13,7 @@ jobs:
       run: |
         set -x
         # Run the script
+        npm install
         cd test
         npm install
         node . ${{secrets.GITHUB_TOKEN}}
