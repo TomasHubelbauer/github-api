@@ -4,7 +4,7 @@ let limit;
 
 module.exports = {
   // TODO: Split into two instead of the `Array.isArray` heuristic?: getPaged + get
-  async *get(url, { token, accept, onLimitChange, onPageChange } = {}) {
+  async *get(url, { token, accept, pageLimit, onLimitChange, onPageChange } = {}) {
     let links = { next: { url, page: 1 } };
     let attempt = 1;
     do {
@@ -13,7 +13,7 @@ module.exports = {
         const pageCount = links.last ? links.last.page : undefined;
         const pageUrl = links.next.url;
         if (onPageChange === true) {
-          console.log(pageNumber, '/', pageCount || 'unknown', 'of', url, 'attempt', attempt, '(', pageUrl, ')');
+          console.log(`${pageCount ? `Page ${pageNumber}/${pageCount}` : `Initial page`} of ${url}, attempt #${attempt} (${pageUrl})`);
         }
         else {
           onPageChange({ pageNumber, pageCount, url, pageUrl, attempt });
@@ -79,7 +79,7 @@ module.exports = {
 
       if (onLimitChange) {
         if (onLimitChange === true) {
-          console.log(limit.remaining, 'of', limit.limit, 'resetting at', limit.reset);
+          console.log(`Limit ${limit.remaining}/${limit.limit}, resetting at ${limit.reset.toLocaleTimeString('en-us')}`);
         }
         else {
           onLimitChange(limit);
@@ -90,7 +90,7 @@ module.exports = {
         // Wait for the rate limit to reset before trying to go for the next page
         await new Promise(resolve => window.setTimeout(resolve, limit.reset.valueOf() - Date.now()));
       }
-    } while (links.next);
+    } while (links.next && (pageLimit === undefined || --pageLimit > 0));
   },
 
   getUserRepos({ type, token, ...rest } = {}) {

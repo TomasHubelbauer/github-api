@@ -22,15 +22,15 @@ for await (const repository of github.getUsersUserRepos('TomasHubelbauer', { tok
 }
 ```
 
-- [`get(url, { token, accept, onLimitChange, onPageChange }): AsyncIterableIterator`](#geturl--token-accept-onlimitchange-onpagechange--asynciterableiterator)
-- [`getUserRepos({ type, token, onLimitChange, onPageChange }): AsyncIterableIterator`](#getuserrepos-type-token-onlimitchange-onpagechange--asynciterableiterator)
-- [`getUserStarred({ sort, token, onLimitChange, onPageChange }): AsyncIterableIterator`](#getuserstarred-sort-token-onlimitchange-onpagechange--asynciterableiterator)
-- [`getUsersUserRepos(user, { token, onLimitChange, onPageChange }): AsyncIterableIterator`](#getusersuserreposuser--token-onlimitchange-onpagechange--asynciterableiterator)
-- [`getUsersUserStarred(user, { token, onLimitChange, onPageChange }): AsyncIterableIterator`](#getusersuserstarrreduser--token-onlimitchange-onpagechange--asynciterableiterator)
-- [`getReposOwnerRepoStargazers(fullName, { token, onLimitChange, onPageChange }): AsyncIterableIterator`](#getreposownerrepostargazersfullname--token-onlimitchange-onpagechange--asynciterableiterator)
-- [`getReposOwnerRepoWatchers(fullName, { token, onLimitChange, onPageChange }): AsyncIterableIterator`](#getreposownerrepowatchersfullname--token-onlimitchange-onpagechange--asynciterableiterator)
-- [`getReposOwnerRepoProjects(fullName, { token, onLimitChange, onPageChange }); AsyncIterableIterator`](#getreposownerrepoprojectsfullname--token-onlimitchange-onpagechange--asynciterableiterator)
-- [`getReposOwnerRepoReleases(fullName, { token, onLimitChange, onPageChange }); AsyncIterableIterator`](#getreposownerreporeleasesfullname--token-onlimitchange-onpagechange--asynciterableiterator)
+- [`get(url, { token, ...rest }): AsyncIterableIterator`](#geturl--token-rest--asynciterableiterator)
+- [`getUserRepos({ type, ...rest }): AsyncIterableIterator`](#getuserrepos-type-rest--asynciterableiterator)
+- [`getUserStarred({ sort, ...rest }): AsyncIterableIterator`](#getuserstarred-sort-rest--asynciterableiterator)
+- [`getUsersUserRepos(user, { ...rest }): AsyncIterableIterator`](#getusersuserreposuser--rest--asynciterableiterator)
+- [`getUsersUserStarred(user, { ...rest }): AsyncIterableIterator`](#getusersuserstarrreduser--rest--asynciterableiterator)
+- [`getReposOwnerRepoStargazers(fullName, { ...rest }): AsyncIterableIterator`](#getreposownerrepostargazersfullname--rest--asynciterableiterator)
+- [`getReposOwnerRepoWatchers(fullName, { ...rest }): AsyncIterableIterator`](#getreposownerrepowatchersfullname--rest--asynciterableiterator)
+- [`getReposOwnerRepoProjects(fullName, { ...rest }); AsyncIterableIterator`](#getreposownerrepoprojectsfullname--rest--asynciterableiterator)
+- [`getReposOwnerRepoReleases(fullName, { ...rest }); AsyncIterableIterator`](#getreposownerreporeleasesfullname--rest--asynciterableiterator)
 - [`patchReposOwnerRepo(fullName, token, body): Promise<void>`](#patchreposownerrepofullname-token-body-promisevoid)
 
 ### `onLimitChange({ remaining, limit, reset }): void` Callback
@@ -49,7 +49,7 @@ is used, which is the `console.log`-based implementation below.
 
 ```javascript
 function onLimitChange({ remaining, limit, reset }) {
-  console.log(remaining, 'of', limit, 'resetting at', reset);
+  console.log(`Limit ${limit.remaining}/${limit.limit}, resetting at ${limit.reset.toLocaleTimeString('en-us')}`);
 }
 ```
 
@@ -68,34 +68,78 @@ is used, which is the `console.log`-based implementation below.
 
 ```javascript
 function onPageChange({ pageNumber, pageCount, url, pageUrl, attempt }) {
-  console.log(pageNumber, '/', pageCount || 'unknown', 'of', url, 'attempt', attempt, '(', pageUrl, ')');
+  console.log(`${pageCount ? `Page ${pageNumber}/${pageCount}` : `Initial page`} of ${url}, attempt #${attempt} (${pageUrl})`);
 }
 ```
 
-### `get(url, { token, accept, onLimitChange, onPageChange }): AsyncIterableIterator`
-
-Returns an async iterator. If the API URL returns a collection, the iterator yields the
-collections items one by one across the pages until all the pages have been drained.
-If the API URL returns an object, the iterator yields once, only the returned object.
+### `...rest` Arguments Of `get`-based Methods
 
 - `token` is for the GitHub API PAT which bumps the rate limit from 60 to 5000.
 - `accept` is for the `Accept` HTTP header for features in preview.
+- `pageLimit` is the cap on the number of pages of the paged response to fetch.
+- [`onLimitChange`](#onlimitchange-remaining-limit-reset-void-callback)
+- [`onPageChange`](#onpagechange-pageNumber-pageCount-url-pageUrl-attempt)
 
-### `getUserRepos({ type, token, onLimitChange, onPageChange }): AsyncIterableIterator`
+### `get(url, { token, ...rest }): AsyncIterableIterator`
 
-### `getUserStarred({ sort, token, onLimitChange, onPageChange }): AsyncIterableIterator`
+Returns an async iterator. If the API URL returns a collection, the iterator yields the
+collections items one by one across all the pages until all the pages have been drained.
+If the API URL returns an object, the iterator yields once, only the returned object.
 
-### `getUsersUserRepos(user, { token, onLimitChange, onPageChange }): AsyncIterableIterator`
+See [`...rest` Arguments Of `get`-based Methods](#rest-arguments-of-get-based-methods)
+for information on the rest arguments of this method.
 
-### `getUsersUserStarred(user, { token, onLimitChange, onPageChange }): AsyncIterableIterator`
+### `getUserRepos({ type, ...rest }): AsyncIterableIterator`
 
-### `getReposOwnerRepoStargazers(fullName, { token, onLimitChange, onPageChange }): AsyncIterableIterator`
+- `fullName` the name of the repository
 
-### `getReposOwnerRepoWatchers(fullName, { token, onLimitChange, onPageChange }): AsyncIterableIterator`
+See [`...rest` Arguments Of `get`-based Methods](#rest-arguments-of-get-based-methods)
+for information on the rest arguments of this method.
 
-### `getReposOwnerRepoProjects(fullName, { token, onLimitChange, onPageChange }); AsyncIterableIterator`
+### `getUserStarred({ sort, ...rest }): AsyncIterableIterator`
 
-### `getReposOwnerRepoReleases(fullName, { token, onLimitChange, onPageChange }); AsyncIterableIterator`
+- `fullName` the name of the repository
+
+See [`...rest` Arguments Of `get`-based Methods](#rest-arguments-of-get-based-methods)
+for information on the rest arguments of this method.
+
+### `getUsersUserRepos(user, { ...rest }): AsyncIterableIterator`
+
+See [`...rest` Arguments Of `get`-based Methods](#rest-arguments-of-get-based-methods)
+for information on the rest arguments of this method.
+
+### `getUsersUserStarred(user, { ...rest }): AsyncIterableIterator`
+
+See [`...rest` Arguments Of `get`-based Methods](#rest-arguments-of-get-based-methods)
+for information on the rest arguments of this method.
+
+### `getReposOwnerRepoStargazers(fullName, { ...rest }): AsyncIterableIterator`
+
+- `fullName` the name of the repository
+
+See [`...rest` Arguments Of `get`-based Methods](#rest-arguments-of-get-based-methods)
+for information on the rest arguments of this method.
+
+### `getReposOwnerRepoWatchers(fullName, { ...rest }): AsyncIterableIterator`
+
+- `fullName` the name of the repository
+
+See [`...rest` Arguments Of `get`-based Methods](#rest-arguments-of-get-based-methods)
+for information on the rest arguments of this method.
+
+### `getReposOwnerRepoProjects(fullName, { ...rest }); AsyncIterableIterator`
+
+- `fullName` the name of the repository
+
+See [`...rest` Arguments Of `get`-based Methods](#rest-arguments-of-get-based-methods)
+for information on the rest arguments of this method.
+
+### `getReposOwnerRepoReleases(fullName, { ...rest }); AsyncIterableIterator`
+
+- `fullName` the name of the repository
+
+See [`...rest` Arguments Of `get`-based Methods](#rest-arguments-of-get-based-methods)
+for information on the rest arguments of this method.
 
 ### `patchReposOwnerRepo(fullName, token, body): Promise<void>`
 
@@ -111,3 +155,5 @@ linking:
 ## To-Do
 
 ### Add GitHub API docs URLs to each API method in readme and JSDoc
+
+### Fix URL fragments of the links in this documents
