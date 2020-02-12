@@ -33,9 +33,12 @@ for await (const repository of github.getUsersUserRepos('TomasHubelbauer', { tok
 - [`getReposOwnerRepoReleases(fullName, { token, onLimitChange, onPageChange }); AsyncIterableIterator`](#getreposownerreporeleasesfullname--token-onlimitchange-onpagechange--asynciterableiterator)
 - [`patchReposOwnerRepo(fullName, token, body): Promise<void>`](#patchreposownerrepofullname-token-body-promisevoid)
 
-### `onLimitChange` callback
+### `onLimitChange({ remaining, limit, reset }): void` Callback
 
-`onLimitChange` is a callback for the rate limit information, or `true` for `console.log`.
+Called when the rate limit information changes.
+
+If the provided value is `true`, instead of a custom function, the default
+is used, which is the `console.log`-based implementation below.
 
 - `remaining` the number of remaining requests in the limit (until the reset)
 - `limit` the total number of requests available per the limit reset period
@@ -44,23 +47,26 @@ for await (const repository of github.getUsersUserRepos('TomasHubelbauer', { tok
   - With an integration PAT (`secrets.GITHUB_TOKEN`), the limit is 1000
 - `reset` a `Date` object of the next API rate limit reset
 
-```js
+```javascript
 function onLimitChange({ remaining, limit, reset }) {
   console.log(remaining, 'of', limit, 'resetting at', reset);
 }
 ```
 
-### `onPageChange` callback
+### `onPageChange({ pageNumber, pageCount, url, pageUrl, attempt }): void` Callback
 
-`onPageChange` is a callback for the page being fetched of a collection request, or `true` for `console.log`.
+Called when the current page being fetched of a paged response changes.
+
+If the provided value is `true`, instead of a custom function, the default
+is used, which is the `console.log`-based implementation below.
 
 - `pageNumber` is the number of the page being fetched currently
 - `pageCount` is the number of pages until all the items have been yield - not known on page #1
-- `callUrl` the API URL being fetched
+- `url` the API URL being fetched
 - `pageUrl` the API URL of the current page being fetched
 - `attempt` the attempt number in case the request failed and is being retried
 
-```js
+```javascript
 function onPageChange({ pageNumber, pageCount, url, pageUrl, attempt }) {
   console.log(pageNumber, '/', pageCount || 'unknown', 'of', url, 'attempt', attempt, '(', pageUrl, ')');
 }
