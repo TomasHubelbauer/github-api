@@ -39,7 +39,7 @@ module.exports = {
   },
 
   async *get(url, { token, accept, pageLimit, onLimitChange, onPageChange, waitInterval, onWaitChange } = {}) {
-    let links = { next: { url, page: 1 } };
+    let links = { next: { url: 'https://api.github.com/' + url, page: 1 } };
     let attempt = 1;
     do {
       if (onPageChange) {
@@ -127,7 +127,7 @@ module.exports = {
   },
 
   getUserRepos({ type, token, ...rest } = {}) {
-    let url = 'https://api.github.com/user/repos';
+    let url = 'user/repos';
     if (type) {
       url += '?type=' + type;
     }
@@ -137,7 +137,7 @@ module.exports = {
   },
 
   getUserStarred({ sort, token, ...rest } = {}) {
-    let url = 'https://api.github.com/user/starred';
+    let url = 'user/starred';
     if (sort) {
       url += '?sort=' + sort;
     }
@@ -148,29 +148,29 @@ module.exports = {
 
   getUsersUserRepos(user, { token, ...rest } = {}) {
     // Include the repository topics using the Mercy preview flag
-    return this.get(`https://api.github.com/users/${user}/repos`, { token, accept: 'application/vnd.github.mercy-preview+json', ...rest });
+    return this.get(`users/${user}/repos`, { token, accept: 'application/vnd.github.mercy-preview+json', ...rest });
   },
 
   getUsersUserStarred(user, { token, ...rest } = {}) {
     // Include the repository topics using the Mercy preview flag
-    return this.get(`https://api.github.com/users/${user}/starred`, { token, accept: 'application/vnd.github.mercy-preview+json', ...rest });
+    return this.get(`users/${user}/starred`, { token, accept: 'application/vnd.github.mercy-preview+json', ...rest });
   },
 
   getReposOwnerRepoStargazers(fullName, { token, ...rest } = {}) {
-    return this.get(`https://api.github.com/repos/${fullName}/stargazers`, { token, ...rest });
+    return this.get(`repos/${fullName}/stargazers`, { token, ...rest });
   },
 
   getReposOwnerRepoWatchers(fullName, { token, ...rest } = {}) {
-    return this.get(`https://api.github.com/repos/${fullName}/subscribers`, { token, ...rest });
+    return this.get(`repos/${fullName}/subscribers`, { token, ...rest });
   },
 
   getReposOwnerRepoProjects(fullName, { token, ...rest } = {}) {
     // Include the repository projects using the Inertia preview flag
-    return this.get(`https://api.github.com/repos/${fullName}/projects`, { token, accept: 'application/vnd.github.inertia-preview+json', ...rest });
+    return this.get(`repos/${fullName}/projects`, { token, accept: 'application/vnd.github.inertia-preview+json', ...rest });
   },
 
   getReposOwnerRepoReleases(fullName, { token, ...rest } = {}) {
-    return this.get(`https://api.github.com/repos/${fullName}/releases`, { token, ...rest });
+    return this.get(`repos/${fullName}/releases`, { token, ...rest });
   },
 
   async patchReposOwnerRepo(fullName, token, body) {
