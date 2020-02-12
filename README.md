@@ -26,7 +26,7 @@ for await (const repository of github.getUsersUserRepos('TomasHubelbauer', { tok
 - [`getUserRepos({ type, ...rest }): AsyncIterableIterator`](#getuserrepos-type-rest--asynciterableiterator)
 - [`getUserStarred({ sort, ...rest }): AsyncIterableIterator`](#getuserstarred-sort-rest--asynciterableiterator)
 - [`getUsersUserRepos(user, { ...rest }): AsyncIterableIterator`](#getusersuserreposuser--rest--asynciterableiterator)
-- [`getUsersUserStarred(user, { ...rest }): AsyncIterableIterator`](#getusersuserstarrreduser--rest--asynciterableiterator)
+- [`getUsersUserStarred(user, { ...rest }): AsyncIterableIterator`](#getusersuserstarreduser--rest--asynciterableiterator)
 - [`getReposOwnerRepoStargazers(fullName, { ...rest }): AsyncIterableIterator`](#getreposownerrepostargazersfullname--rest--asynciterableiterator)
 - [`getReposOwnerRepoWatchers(fullName, { ...rest }): AsyncIterableIterator`](#getreposownerrepowatchersfullname--rest--asynciterableiterator)
 - [`getReposOwnerRepoProjects(fullName, { ...rest }); AsyncIterableIterator`](#getreposownerrepoprojectsfullname--rest--asynciterableiterator)
@@ -77,8 +77,8 @@ function onPageChange({ pageNumber, pageCount, url, pageUrl, attempt }) {
 - `token` is for the GitHub API PAT which bumps the rate limit from 60 to 5000.
 - `accept` is for the `Accept` HTTP header for features in preview.
 - `pageLimit` is the cap on the number of pages of the paged response to fetch.
-- [`onLimitChange`](#onlimitchange-remaining-limit-reset-void-callback)
-- [`onPageChange`](#onpagechange-pageNumber-pageCount-url-pageUrl-attempt)
+- [`onLimitChange`](#onlimitchange-remaining-limit-reset--void-callback)
+- [`onPageChange`](#onpagechange-pagenumber-pagecount-url-pageurl-attempt--void-callback)
 
 ### `get(url, { token, ...rest }): AsyncIterableIterator`
 
