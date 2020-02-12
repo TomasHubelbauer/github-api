@@ -187,6 +187,7 @@ module.exports = {
       },
       body: JSON.stringify(body)
     });
+
     if (!response.ok) {
       console.log(response.status, response.statusText);
     }
