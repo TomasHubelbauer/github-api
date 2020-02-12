@@ -87,9 +87,10 @@ is used, which `console.log`s a message similar to this:
 
 ### `get(url, { token, ...rest }): AsyncIterableIterator`
 
-Returns an async iterator. If the API URL returns a collection, the iterator yields the
-collections items one by one across all the pages until all the pages have been drained.
-If the API URL returns an object, the iterator yields once, only the returned object.
+Returns an async iterator which yields the API response array items one by one
+across all the pages until all the pages have been drained.
+
+Throws if the API response is not an array.
 
 See [`...rest` Arguments Of `get`-based Methods](#rest-arguments-of-get-based-methods)
 for information on the rest arguments of this method.
