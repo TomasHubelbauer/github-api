@@ -38,7 +38,6 @@ module.exports = {
     } while (reset > Date.now());
   },
 
-  // TODO: Split into two instead of the `Array.isArray` heuristic?: getPaged + get
   async *get(url, { token, accept, pageLimit, onLimitChange, onPageChange, waitInterval, onWaitChange } = {}) {
     let links = { next: { url, page: 1 } };
     let attempt = 1;
@@ -102,15 +101,13 @@ module.exports = {
       // Reset the attempt counter on each successful fetch
       attempt = 1;
 
-      const json = await response.json();
-      if (Array.isArray(json)) {
-        for (const item of json) {
-          yield item;
-        }
+      const items = await response.json();
+      if (!Array.isArray(items)) {
+        throw new Error(JSON.stringify(items));
       }
-      else {
-        yield json;
-        return;
+
+      for (const item of items) {
+        yield item;
       }
 
       links = {};
