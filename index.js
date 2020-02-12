@@ -3,8 +3,42 @@ const fetch = require('node-fetch');
 let limit;
 
 module.exports = {
+  format(duration) {
+    let human = '';
+    // Get the duration in seconds
+    let seconds = ~~(duration / 1000);
+    // Get the duration in minutes
+    const minutes = ~~(seconds / 60);
+    if (minutes > 0) {
+      human += minutes < 10 ? '0' + minutes : minutes;
+    }
+
+    // Get the reset duration in remaining seconds
+    seconds = seconds % 60;
+    human += ':' + (seconds < 10 ? '0' + seconds : seconds);
+
+    return human;
+  },
+
+  async wait(onWaitChange, waitInterval) {
+    do {
+      if (onWaitChange) {
+        if (onWaitChange === true) {
+          const humanInterval = this.format(waitInterval);
+          const humanReset = this.format(limit.reset - Date.now());
+          console.log(`Waiting ${humanInterval} for reset at ${limit.reset.toLocaleTimeString('en-us')} (${humanReset})…`);
+        }
+        else {
+          onWaitChange(limit.reset);
+        }
+      }
+
+      await new Promise(resolve => setTimeout(resolve, waitInterval));
+    } while (limit.reset > Date.now());
+  },
+
   // TODO: Split into two instead of the `Array.isArray` heuristic?: getPaged + get
-  async *get(url, { token, accept, pageLimit, onLimitChange, onPageChange } = {}) {
+  async *get(url, { token, accept, pageLimit, onLimitChange, onPageChange, waitInterval, onWaitChange } = {}) {
     let links = { next: { url, page: 1 } };
     let attempt = 1;
     do {
@@ -13,7 +47,7 @@ module.exports = {
         const pageCount = links.last ? links.last.page : undefined;
         const pageUrl = links.next.url;
         if (onPageChange === true) {
-          console.log(`${pageCount ? `Page ${pageNumber}/${pageCount}` : `Initial page`} of ${url}, attempt #${attempt} (${pageUrl})`);
+          console.log(`${pageCount ? `Page ${pageNumber}/${pageCount}` : `Initial page`} of ${url}, attempt #${attempt}${pageCount ? ` (${pageUrl})` : ''}`);
         }
         else {
           onPageChange({ pageNumber, pageCount, url, pageUrl, attempt });
@@ -21,6 +55,26 @@ module.exports = {
       }
 
       const response = await fetch(links.next.url, { headers: { Authorization: token ? `token ${token}` : undefined, Accept: accept } });
+
+      limit = {
+        limit: Number(response.headers.get('x-ratelimit-limit')),
+        remaining: Number(response.headers.get(['x-ratelimit-remaining'])),
+        reset: new Date(Number(response.headers.get(['x-ratelimit-reset'])) * 1000)
+      };
+
+      if (onLimitChange) {
+        if (onLimitChange === true) {
+          const humanReset = this.format(limit.reset - Date.now());
+          const humanInstant = new Date().toDateString() === limit.reset.toDateString()
+            ? limit.reset.toLocaleTimeString()
+            : limit.reset.toLocaleString();
+          console.log(`Limit ${limit.remaining}/${limit.limit}, resetting at ${humanInstant} (${humanReset})`);
+        }
+        else {
+          onLimitChange(limit);
+        }
+      }
+
       if (!response.ok) {
         if (attempt === 10) {
           throw new Error(`Failing at ${links.next.url} non-ok ${response.status} ${response.statusText} response!`);
@@ -30,18 +84,16 @@ module.exports = {
         if (response.status === 403 && limit.remaining === 0) {
           attempt++;
 
-          // TODO: Wait with backoff
-          await new Promise(resolve => setTimeout(resolve, limit.reset.valueOf() - Date.now()));
+          // Wait for the rate limit to reset before trying to go for the next page
+          await this.wait(onWaitChange, waitInterval || (limit.reset - Date.now()));
 
           // Retry with the same URL but an increased attempt number
           continue;
         }
 
         // Note that this means the request was load balanced and did not provide data
-        if (response.status === 502 && (limit === undefined || (limit.limit === 0 && limit.remaining === 0 /* TODO: `&& limit.reset === '1970-01-01T00:00:00.000Z'` */))) {
+        if (response.status === 502 && limit.limit === 0 && limit.remaining === 0 /* TODO: `&& limit.reset === '1970-01-01T00:00:00.000Z'` */) {
           attempt++;
-
-          // TODO: Wait with backoff
 
           // Retry with the same URL but an increased attempt number
           continue;
@@ -71,24 +123,9 @@ module.exports = {
         links[rel] = { page, url };
       }
 
-      limit = {
-        limit: Number(response.headers.get('x-ratelimit-limit')),
-        remaining: Number(response.headers.get(['x-ratelimit-remaining'])),
-        reset: new Date(Number(response.headers.get(['x-ratelimit-reset'])) * 1000)
-      };
-
-      if (onLimitChange) {
-        if (onLimitChange === true) {
-          console.log(`Limit ${limit.remaining}/${limit.limit}, resetting at ${limit.reset.toLocaleTimeString('en-us')}`);
-        }
-        else {
-          onLimitChange(limit);
-        }
-      }
-
       if (limit.remaining === 0 && links.next !== undefined) {
         // Wait for the rate limit to reset before trying to go for the next page
-        await new Promise(resolve => window.setTimeout(resolve, limit.reset.valueOf() - Date.now()));
+        await this.wait(onWaitChange, waitInterval || (limit.reset - Date.now()));
       }
     } while (links.next && (pageLimit === undefined || --pageLimit > 0));
   },

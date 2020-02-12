@@ -38,7 +38,9 @@ for await (const repository of github.getUsersUserRepos('TomasHubelbauer', { tok
 Called when the rate limit information changes.
 
 If the provided value is `true`, instead of a custom function, the default
-is used, which is the `console.log`-based implementation below.
+is used, which `console.log`s a message similar to this:
+
+> Limit 59/60, resetting at 9:05:18 PM (59:55)
 
 - `remaining` the number of remaining requests in the limit (until the reset)
 - `limit` the total number of requests available per the limit reset period
@@ -47,18 +49,14 @@ is used, which is the `console.log`-based implementation below.
   - With an integration PAT (`secrets.GITHUB_TOKEN`), the limit is 1000
 - `reset` a `Date` object of the next API rate limit reset
 
-```javascript
-function onLimitChange({ remaining, limit, reset }) {
-  console.log(`Limit ${limit.remaining}/${limit.limit}, resetting at ${limit.reset.toLocaleTimeString('en-us')}`);
-}
-```
-
 ### `onPageChange({ pageNumber, pageCount, url, pageUrl, attempt }): void` Callback
 
 Called when the current page being fetched of a paged response changes.
 
 If the provided value is `true`, instead of a custom function, the default
-is used, which is the `console.log`-based implementation below.
+is used, which `console.log`s a message similar to this:
+
+> Page 2/5 of https://api.github.com/user/repos, attempt #1 (https://api.github.com/user/repos?page=2)
 
 - `pageNumber` is the number of the page being fetched currently
 - `pageCount` is the number of pages until all the items have been yield - not known on page #1
@@ -66,11 +64,16 @@ is used, which is the `console.log`-based implementation below.
 - `pageUrl` the API URL of the current page being fetched
 - `attempt` the attempt number in case the request failed and is being retried
 
-```javascript
-function onPageChange({ pageNumber, pageCount, url, pageUrl, attempt }) {
-  console.log(`${pageCount ? `Page ${pageNumber}/${pageCount}` : `Initial page`} of ${url}, attempt #${attempt} (${pageUrl})`);
-}
-```
+### `onWaitChange(reset): void` Callback
+
+Called when the rate limit waiting changes.
+
+If the provided value is `true`, instead of a custom function, the default
+is used, which `console.log`s a message similar to this:
+
+> Waiting :01 for reset at 8:05:10 PM (:11)…
+
+- `reset` a `Date` object of the next API rate limit reset
 
 ### `...rest` Arguments Of `get`-based Methods
 
@@ -79,6 +82,8 @@ function onPageChange({ pageNumber, pageCount, url, pageUrl, attempt }) {
 - `pageLimit` is the cap on the number of pages of the paged response to fetch.
 - [`onLimitChange`](#onlimitchange-remaining-limit-reset--void-callback)
 - [`onPageChange`](#onpagechange-pagenumber-pagecount-url-pageurl-attempt--void-callback)
+- `waitInterval` is the interval at which the reset waiting callback is called.
+- [`onWaitChange`](#onwaitchange-reset--void-callback)
 
 ### `get(url, { token, ...rest }): AsyncIterableIterator`
 
