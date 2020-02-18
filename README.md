@@ -31,6 +31,7 @@ for await (const repository of github.getUsersUserRepos('TomasHubelbauer', { tok
 - [`getReposOwnerRepoWatchers(fullName, { ...rest }): AsyncIterableIterator`](#getreposownerrepowatchersfullname--rest--asynciterableiterator)
 - [`getReposOwnerRepoProjects(fullName, { ...rest }); AsyncIterableIterator`](#getreposownerrepoprojectsfullname--rest--asynciterableiterator)
 - [`getReposOwnerRepoReleases(fullName, { ...rest }); AsyncIterableIterator`](#getreposownerreporeleasesfullname--rest--asynciterableiterator)
+- [`getReposOwnerRepoSubscription(fullName, token): Promise<null | object>`](#getreposownerreposubscriptionfullname-token-promisenull--object)
 - [`patchReposOwnerRepo(fullName, token, body): Promise<void>`](#patchreposownerrepofullname-token-body-promisevoid)
 
 ### `onLimitChange({ remaining, limit, reset }): void` Callback
@@ -147,7 +148,13 @@ for information on the rest arguments of this method.
 See [`...rest` Arguments Of `get`-based Methods](#rest-arguments-of-get-based-methods)
 for information on the rest arguments of this method.
 
+### `getReposOwnerRepoSubscription(fullName, token): Promise<null | object>`
+
+- `fullName` the name of the repository
+
 ### `patchReposOwnerRepo(fullName, token, body): Promise<void>`
+
+- `fullName` the name of the repository
 
 ## Development
 
