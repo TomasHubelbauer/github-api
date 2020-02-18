@@ -188,7 +188,7 @@ module.exports = {
     }
 
     return response.json();
-  }
+  },
 
   async patchReposOwnerRepo(fullName, token, body) {
     const response = await fetch(`https://api.github.com/repos/${fullName}`, {
