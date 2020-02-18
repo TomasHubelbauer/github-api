@@ -181,6 +181,7 @@ module.exports = {
           Accept: 'application/json',
         }
       });
+    }
     catch (error) {
       // TODO: Do more specific checking
       return null;
