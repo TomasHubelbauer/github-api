@@ -17,14 +17,7 @@ void async function () {
   }
 
   console.log('The initial page of user starred repos (30 items):');
-  for await (const starred_at, repo of github.getUserStarred(rest)) {
+  for await (const { starred_at, repo } of github.getUserStarred(rest)) {
     console.log(starred_at, repo.full_name);
   }
-  
-  const subscription = await github.getReposOwnerRepoSubscription('microsoft/vscode', token);
-  if (subscription === null) {
-    throw new Error('The subscription endpoint failed.');
-  }
-  
-  console.log(subscription);
 }()
