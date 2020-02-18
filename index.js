@@ -152,8 +152,9 @@ module.exports = {
   },
 
   getUsersUserStarred(user, { token, ...rest } = {}) {
-    // Include the repository topics using the Mercy preview flag
-    return this.get(`users/${user}/starred`, { token, accept: 'application/vnd.github.mercy-preview+json', ...rest });
+    // Include the repository topics using the Mercy preview flag: `application/vnd.github.mercy-preview+json`
+    // Include the starred date using the Star preview flag: `application/vnd.github.v3.star+json`
+    return this.get(`users/${user}/starred`, { token, accept: 'application/vnd.github.v3.star+json', ...rest });
   },
 
   getReposOwnerRepoStargazers(fullName, { token, ...rest } = {}) {
