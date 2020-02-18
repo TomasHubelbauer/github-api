@@ -20,4 +20,9 @@ void async function () {
   for await (const { starred_at, repo } of github.getUsersUserStarred('TomasHubelbauer', rest)) {
     console.log(starred_at, repo.full_name);
   }
+
+  console.log('The initial page of user watched repos (30 items):');
+  for await (const repo of github.getUsersUserSubscriptions('TomasHubelbauer', rest)) {
+    console.log(repo.full_name);
+  }
 }()

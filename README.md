@@ -27,6 +27,7 @@ for await (const repository of github.getUsersUserRepos('TomasHubelbauer', { tok
 - [`getUserStarred({ sort, ...rest }): AsyncIterableIterator`](#getuserstarred-sort-rest--asynciterableiterator)
 - [`getUsersUserRepos(user, { ...rest }): AsyncIterableIterator`](#getusersuserreposuser--rest--asynciterableiterator)
 - [`getUsersUserStarred(user, { ...rest }): AsyncIterableIterator`](#getusersuserstarreduser--rest--asynciterableiterator)
+- [`getUsersUserSubscriptions(user, { ...rest }): AsyncIterableIterator`](#getusersusersubscriptionsuser--rest--asynciterableiterator)
 - [`getReposOwnerRepoStargazers(fullName, { ...rest }): AsyncIterableIterator`](#getreposownerrepostargazersfullname--rest--asynciterableiterator)
 - [`getReposOwnerRepoWatchers(fullName, { ...rest }): AsyncIterableIterator`](#getreposownerrepowatchersfullname--rest--asynciterableiterator)
 - [`getReposOwnerRepoProjects(fullName, { ...rest }); AsyncIterableIterator`](#getreposownerrepoprojectsfullname--rest--asynciterableiterator)
@@ -98,14 +99,15 @@ for information on the rest arguments of this method.
 
 ### `getUserRepos({ type, ...rest }): AsyncIterableIterator`
 
-- `fullName` the name of the repository
-
 See [`...rest` Arguments Of `get`-based Methods](#rest-arguments-of-get-based-methods)
 for information on the rest arguments of this method.
 
 ### `getUserStarred({ sort, ...rest }): AsyncIterableIterator`
 
-- `fullName` the name of the repository
+See [`...rest` Arguments Of `get`-based Methods](#rest-arguments-of-get-based-methods)
+for information on the rest arguments of this method.
+
+### `getUserSubscriptions({ sort, ...rest }): AsyncIterableIterator`
 
 See [`...rest` Arguments Of `get`-based Methods](#rest-arguments-of-get-based-methods)
 for information on the rest arguments of this method.

@@ -147,6 +147,13 @@ module.exports = {
     return this.get(url, { token, accept: 'application/vnd.github.v3.star+json', ...rest });
   },
 
+  getUserSubscriptions({ token, ...rest } = {}) {
+    const url = 'user/subscriptions';
+
+    // Include the repository topics using the Mercy preview flag: `application/vnd.github.mercy-preview+json`
+    return this.get(url, { token, accept: 'application/vnd.github.mercy-preview+json', ...rest });
+  },
+
   getUsersUserRepos(user, { token, ...rest } = {}) {
     // Include the repository topics using the Mercy preview flag
     return this.get(`users/${user}/repos`, { token, accept: 'application/vnd.github.mercy-preview+json', ...rest });
@@ -156,6 +163,11 @@ module.exports = {
     // Include the repository topics using the Mercy preview flag: `application/vnd.github.mercy-preview+json`
     // Include the starred date using the Star preview flag: `application/vnd.github.v3.star+json`
     return this.get(`users/${user}/starred`, { token, accept: 'application/vnd.github.v3.star+json', ...rest });
+  },
+
+  getUsersUserSubscriptions(user, { token, ...rest } = {}) {
+    // Include the repository topics using the Mercy preview flag: `application/vnd.github.mercy-preview+json`
+    return this.get(`users/${user}/subscriptions`, { token, accept: 'application/vnd.github.mercy-preview+json', ...rest });
   },
 
   getReposOwnerRepoStargazers(fullName, { token, ...rest } = {}) {
@@ -174,7 +186,7 @@ module.exports = {
   getReposOwnerRepoReleases(fullName, { token, ...rest } = {}) {
     return this.get(`repos/${fullName}/releases`, { token, ...rest });
   },
-    
+
   async getReposOwnerRepoSubscription(fullName, token) {
     try {
       const response = await fetch(`https://api.github.com/repos/${fullName}/subscription`, {
@@ -183,7 +195,7 @@ module.exports = {
           Accept: 'application/json',
         }
       });
-      
+
       return response.json();
     }
     catch (error) {
