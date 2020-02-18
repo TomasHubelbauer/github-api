@@ -21,7 +21,7 @@ void async function () {
     console.log(repo.full_name);
   }
   
-  const subscription = await github.getReposUserRepoSubscription('microsoft/vscode', token);
+  const subscription = await github.getReposOwnerRepoSubscription('microsoft/vscode', token);
   if (subscription === null) {
     throw new Error('The subscription endpoint failed.');
   }
