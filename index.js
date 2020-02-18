@@ -181,13 +181,13 @@ module.exports = {
           Accept: 'application/json',
         }
       });
+      
+      return response.json();
     }
     catch (error) {
       // TODO: Do more specific checking
       return null;
     }
-
-    return response.json();
   },
 
   async patchReposOwnerRepo(fullName, token, body) {
