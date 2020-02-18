@@ -12,12 +12,12 @@ void async function () {
   };
 
   console.log('The initial page of user repos (30 items):');
-  for await (const repo of github.getUserRepos(rest)) {
+  for await (const repo of github.getUsersUserRepos('TomasHubelbauer', rest)) {
     console.log(repo.full_name);
   }
 
   console.log('The initial page of user starred repos (30 items):');
-  for await (const { starred_at, repo } of github.getUserStarred(rest)) {
+  for await (const { starred_at, repo } of github.getUsersUserStarred('TomasHubelbauer', rest)) {
     console.log(starred_at, repo.full_name);
   }
 }()
