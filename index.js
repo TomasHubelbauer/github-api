@@ -172,6 +172,22 @@ module.exports = {
   getReposOwnerRepoReleases(fullName, { token, ...rest } = {}) {
     return this.get(`repos/${fullName}/releases`, { token, ...rest });
   },
+    
+  async getReposOwnerRepoSubscription(fullName, token) {
+    try {
+      const response = await fetch(`https://api.github.com/repos/${fullName}/subscription`, {
+        headers: {
+          Authorization: `token ${token}`,
+          Accept: 'application/json',
+        }
+      });
+    catch (error) {
+      // TODO: Do more specific checking
+      return null;
+    }
+
+    return response.json();
+  }
 
   async patchReposOwnerRepo(fullName, token, body) {
     const response = await fetch(`https://api.github.com/repos/${fullName}`, {
