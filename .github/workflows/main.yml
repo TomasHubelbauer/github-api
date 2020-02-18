@@ -16,5 +16,4 @@ jobs:
         npm install
         cd test
         npm install
-        # Use own PAT to avoid some API endpoints being unavailable to integration tokens
-        node . ${{secrets.GITHUB_PAT}}
+        node . ${{secrets.GITHUB_TOKEN}}
