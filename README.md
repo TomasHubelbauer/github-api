@@ -169,6 +169,14 @@ linking:
 
 ## To-Do
 
+### Allow configuring page size and default it to the maximum - 100
+
+https://developer.github.com/v3/guides/traversing-with-pagination/#changing-the-number-of-items-received
+
+This will help save some rate limit on things such as downloading a
+list of all my repositories or all repositories I star. Will reduce
+the rate limit by 66.6 %.
+
 ### Add GitHub API docs URLs to each API method in readme and JSDoc
 
 ### Fix URL fragments of the links in this documents
