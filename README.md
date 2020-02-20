@@ -81,6 +81,7 @@ is used, which `console.log`s a message similar to this:
 
 - `token` is for the GitHub API PAT which bumps the rate limit from 60 to 5000.
 - `accept` is for the `Accept` HTTP header for features in preview.
+- `pageSize` is the maximum of number of items to return per page - default is the maximum 100.
 - `pageLimit` is the cap on the number of pages of the paged response to fetch.
 - [`onLimitChange`](#onlimitchange-remaining-limit-reset--void-callback)
 - [`onPageChange`](#onpagechange-pagenumber-pagecount-url-pageurl-attempt--void-callback)
@@ -169,14 +170,4 @@ linking:
 
 ## To-Do
 
-### Allow configuring page size and default it to the maximum - 100
-
-https://developer.github.com/v3/guides/traversing-with-pagination/#changing-the-number-of-items-received
-
-This will help save some rate limit on things such as downloading a
-list of all my repositories or all repositories I star. Will reduce
-the rate limit by 66.6 %.
-
 ### Add GitHub API docs URLs to each API method in readme and JSDoc
-
-### Fix URL fragments of the links in this documents

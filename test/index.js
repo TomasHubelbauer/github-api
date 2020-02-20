@@ -11,18 +11,25 @@ void async function () {
     onWaitChange: true, // Use the default callback - `console.log`
   };
 
-  console.log('The initial page of user repos (30 items):');
+  let repos = 0;
   for await (const repo of github.getUsersUserRepos('TomasHubelbauer', rest)) {
-    console.log(repo.full_name);
+    void repo;
+    repos++;
   }
+  console.log('Repos', repos);
 
-  console.log('The initial page of user starred repos (30 items):');
+  let starred = 0;
   for await (const { starred_at, repo } of github.getUsersUserStarred('TomasHubelbauer', rest)) {
-    console.log(starred_at, repo.full_name);
+    void starred_at;
+    void repo;
+    starred++;
   }
+  console.log('Starred repos', starred);
 
-  console.log('The initial page of user watched repos (30 items):');
+  let watched = 0;
   for await (const repo of github.getUsersUserSubscriptions('TomasHubelbauer', rest)) {
-    console.log(repo.full_name);
+    void repo;
+    watched++;
   }
+  console.log('Watched repos', watched);
 }()

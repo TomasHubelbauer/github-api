@@ -38,8 +38,19 @@ module.exports = {
     } while (reset > Date.now());
   },
 
-  async *get(url, { token, accept, pageLimit, onLimitChange, onPageChange, waitInterval, onWaitChange } = {}) {
-    let links = { next: { url: 'https://api.github.com/' + url, page: 1 } };
+  async *get(path, { params = {}, token, accept, pageSize, pageLimit, onLimitChange, onPageChange, waitInterval, onWaitChange } = {}) {
+    // Default to the maximum page size to save on rate limit when iterating over the entire collection
+    params['per_page'] = pageSize || 100;
+
+    let query = '';
+    const keys = Object.keys(params);
+    for (const key of keys) {
+      const value = params[key];
+      query += (query ? '&' : '?') + key + '=' + value;
+    }
+
+    const url = `https://api.github.com/` + path + query;
+    let links = { next: { url, page: 1 } };
     let attempt = 1;
     do {
       if (onPageChange) {
@@ -127,31 +138,23 @@ module.exports = {
   },
 
   getUserRepos({ type, token, ...rest } = {}) {
-    let url = 'user/repos';
-    if (type) {
-      url += '?type=' + type;
-    }
+    const params = { type };
 
     // Include the repository topics using the Mercy preview flag
-    return this.get(url, { token, accept: 'application/vnd.github.mercy-preview+json', ...rest });
+    return this.get('user/repos', { params, token, accept: 'application/vnd.github.mercy-preview+json', ...rest });
   },
 
   getUserStarred({ sort, token, ...rest } = {}) {
-    let url = 'user/starred';
-    if (sort) {
-      url += '?sort=' + sort;
-    }
+    const params = { sort };
 
     // Include the repository topics using the Mercy preview flag: `application/vnd.github.mercy-preview+json`
     // Include the starred date using the Star preview flag: `application/vnd.github.v3.star+json`
-    return this.get(url, { token, accept: 'application/vnd.github.v3.star+json', ...rest });
+    return this.get('user/starred', { params, token, accept: 'application/vnd.github.v3.star+json', ...rest });
   },
 
   getUserSubscriptions({ token, ...rest } = {}) {
-    const url = 'user/subscriptions';
-
     // Include the repository topics using the Mercy preview flag: `application/vnd.github.mercy-preview+json`
-    return this.get(url, { token, accept: 'application/vnd.github.mercy-preview+json', ...rest });
+    return this.get('user/subscriptions', { token, accept: 'application/vnd.github.mercy-preview+json', ...rest });
   },
 
   getUsersUserRepos(user, { token, ...rest } = {}) {
