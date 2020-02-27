@@ -25,9 +25,12 @@ for await (const repository of github.getUsersUserRepos('TomasHubelbauer', { tok
 - [`get(url, { token, ...rest }): AsyncIterableIterator`](#geturl--token-rest--asynciterableiterator)
 - [`getUserRepos({ type, ...rest }): AsyncIterableIterator`](#getuserrepos-type-rest--asynciterableiterator)
 - [`getUserStarred({ sort, ...rest }): AsyncIterableIterator`](#getuserstarred-sort-rest--asynciterableiterator)
+- [`getUserSubscriptions({ sort, ...rest }): AsyncIterableIterator`](#getusersubscriptions-sort-rest--asynciterableiterator)
+- [`getUserFollowers({ sort, ...rest }): AsyncIterableIterator`](#getuserfollowers-sort-rest--asynciterableiterator)
 - [`getUsersUserRepos(user, { ...rest }): AsyncIterableIterator`](#getusersuserreposuser--rest--asynciterableiterator)
 - [`getUsersUserStarred(user, { ...rest }): AsyncIterableIterator`](#getusersuserstarreduser--rest--asynciterableiterator)
 - [`getUsersUserSubscriptions(user, { ...rest }): AsyncIterableIterator`](#getusersusersubscriptionsuser--rest--asynciterableiterator)
+- [`getUsersUserFollowers(user, { ...rest }): AsyncIterableIterator`](#getusersuserfollowersuser--rest--asynciterableiterator)
 - [`getReposOwnerRepoStargazers(fullName, { ...rest }): AsyncIterableIterator`](#getreposownerrepostargazersfullname--rest--asynciterableiterator)
 - [`getReposOwnerRepoWatchers(fullName, { ...rest }): AsyncIterableIterator`](#getreposownerrepowatchersfullname--rest--asynciterableiterator)
 - [`getReposOwnerRepoProjects(fullName, { ...rest }); AsyncIterableIterator`](#getreposownerrepoprojectsfullname--rest--asynciterableiterator)
@@ -113,12 +116,27 @@ for information on the rest arguments of this method.
 See [`...rest` Arguments Of `get`-based Methods](#rest-arguments-of-get-based-methods)
 for information on the rest arguments of this method.
 
+### `getUserFollowers({ sort, ...rest }): AsyncIterableIterator`
+
+See [`...rest` Arguments Of `get`-based Methods](#rest-arguments-of-get-based-methods)
+for information on the rest arguments of this method.
+
 ### `getUsersUserRepos(user, { ...rest }): AsyncIterableIterator`
 
 See [`...rest` Arguments Of `get`-based Methods](#rest-arguments-of-get-based-methods)
 for information on the rest arguments of this method.
 
 ### `getUsersUserStarred(user, { ...rest }): AsyncIterableIterator`
+
+See [`...rest` Arguments Of `get`-based Methods](#rest-arguments-of-get-based-methods)
+for information on the rest arguments of this method.
+
+### `getUsersUserSubscriptions(user, { ...rest }): AsyncIterableIterator`
+
+See [`...rest` Arguments Of `get`-based Methods](#rest-arguments-of-get-based-methods)
+for information on the rest arguments of this method.
+
+### `getUsersUserFollowers(user, { ...rest }): AsyncIterableIterator`
 
 See [`...rest` Arguments Of `get`-based Methods](#rest-arguments-of-get-based-methods)
 for information on the rest arguments of this method.

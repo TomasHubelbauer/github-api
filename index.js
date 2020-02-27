@@ -157,6 +157,10 @@ module.exports = {
     return this.get('user/subscriptions', { token, accept: 'application/vnd.github.mercy-preview+json', ...rest });
   },
 
+  getUserFollowers({ token, ...rest } = {}) {
+    return this.get('user/followers', { token, ...rest });
+  },
+
   getUsersUserRepos(user, { token, ...rest } = {}) {
     // Include the repository topics using the Mercy preview flag
     return this.get(`users/${user}/repos`, { token, accept: 'application/vnd.github.mercy-preview+json', ...rest });
@@ -171,6 +175,10 @@ module.exports = {
   getUsersUserSubscriptions(user, { token, ...rest } = {}) {
     // Include the repository topics using the Mercy preview flag: `application/vnd.github.mercy-preview+json`
     return this.get(`users/${user}/subscriptions`, { token, accept: 'application/vnd.github.mercy-preview+json', ...rest });
+  },
+
+  getUsersUserFollowers(user, { token, ...rest } = {}) {
+    return this.get(`users/${user}/followers`, { token, ...rest });
   },
 
   getReposOwnerRepoStargazers(fullName, { token, ...rest } = {}) {

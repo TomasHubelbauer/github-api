@@ -32,4 +32,11 @@ void async function () {
     watched++;
   }
   console.log('Watched repos', watched);
+
+  let followers = 0;
+  for await (const repo of github.getUsersUserFollowers('TomasHubelbauer', rest)) {
+    void repo;
+    followers++;
+  }
+  console.log('Followers', followers);
 }()
