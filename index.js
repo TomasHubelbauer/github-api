@@ -114,7 +114,9 @@ module.exports = {
 
       const items = await response.json();
       if (!Array.isArray(items)) {
-        throw new Error(JSON.stringify(items));
+        const error = new Error(`The returned response is not an array.`);
+        error.data = items;
+        throw error;
       }
 
       for (const item of items) {
@@ -196,6 +198,10 @@ module.exports = {
 
   getReposOwnerRepoReleases(fullName, { token, ...rest } = {}) {
     return this.get(`repos/${fullName}/releases`, { token, ...rest });
+  },
+
+  getReposOwnerRepoCommits(fullName, { token, ...rest } = {}) {
+    return this.get(`repos/${fullName}/commits`, { token, ...rest });
   },
 
   async getReposOwnerRepoSubscription(fullName, token) {

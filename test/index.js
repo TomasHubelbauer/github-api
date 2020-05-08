@@ -39,4 +39,21 @@ void async function () {
     followers++;
   }
   console.log('Followers', followers);
+
+  let commits = 0;
+  try {
+    for await (const commit of github.getReposOwnerRepoCommits('TomasHubelbauer/empty', rest)) {
+      void commit;
+      commits++;
+    }
+    console.log('Commits', commits);
+  }
+  catch (error) {
+    if (error.data && error.data.message === 'Git Repository is empty.') {
+      console.log('Commits', 0);
+    }
+    else {
+      throw error;
+    }
+  }
 }()
