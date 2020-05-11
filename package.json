@@ -7,5 +7,9 @@
   },
   "dependencies": {
     "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "fs-extra": "^9.0.0",
+    "typescript": "^3.8.3"
   }
 }

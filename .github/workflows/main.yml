@@ -9,11 +9,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Run the workflow
+    - name: Configure Git for the push from the workflow to the repository
       run: |
-        set -x
-        # Run the script
-        npm install
-        cd test
-        npm install
-        node . ${{secrets.GITHUB_TOKEN}}
+        git config --global user.email "tomas@hubelbauer.net"
+        git config --global user.name "Tomas Hubelbauer"
+    - name: Check out the `master` branch - GitHub Actions checks out detached HEAD
+      run: git checkout master
+    - name: Install Node dependencies
+      run: npm install
+    - name: Run the tests
+      run: node test
+    - name: Authenticate with GitHub using the out-of-the-box workflow PAT
+      run: |
+        # (The commit using this PAT for authentication won't build GitHub Pages)
+        # (The commit using the custom PAT would built GitHub Pages but also start an infinite GitHub Actions workflow loop)
+        git remote set-url origin https://tomashubelbauer:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}
+    - name: Stage the Git index changes resulting from the CI script
+      run: git add index.d.ts
+    - name: Reset unstaged changes so that Git commit won't fail (e.g. package-lock.json, temporary files, …)
+      run: git checkout -- .
+    - name: Commit the staged changes to the workflow repository
+      run: git commit -m "Commit generated documentation"
+    - name: Rebase if the branch has changed meanwhile or fail on automatically irresolvable conflicts
+      run: git pull --rebase
+    - name: Push the commit to the workflow repository
+      run: git push
