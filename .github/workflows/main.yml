@@ -22,7 +22,7 @@ jobs:
     - name: Generate the declaration file
       run: npx tsc index.js --allowJs --declaration --emitDeclarationOnly
     - name: Append time stamp to ensure Git change
-      run: date >> index.d.ts
+      run: echo "// $(date)" >> index.d.ts
     - name: Authenticate with GitHub using the out-of-the-box workflow PAT
       run: |
         # (The commit using this PAT for authentication won't build GitHub Pages)
