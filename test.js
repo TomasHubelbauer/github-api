@@ -1,4 +1,4 @@
-const github = require('..');
+const github = require('.');
 
 void async function () {
   const token = process.argv[2];
