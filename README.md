@@ -1,5 +1,7 @@
 # GitHub API
 
+![](https://github.com/TomasHubelbauer/github-api/workflows/github-actions/badge.svg)
+
 An implementation of a GitHub API which handles rate limit hits by waiting for
 the rate limit reset and streams collection results across pages using as async
 interator.
