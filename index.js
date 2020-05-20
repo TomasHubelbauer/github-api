@@ -106,7 +106,7 @@ module.exports = {
 
       if (onLimitChange) {
         if (onLimitChange === true) {
-          const humanReset = this.format(reset - Date.now());
+          const humanReset = format(reset - Date.now());
           const humanInstant = new Date().toDateString() === reset.toDateString()
             ? reset.toLocaleTimeString()
             : reset.toLocaleString();
