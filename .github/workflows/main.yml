@@ -5,13 +5,14 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - name: Check out the main branch
+      uses: actions/checkout@v3
+      with:
+        ref: master
     - name: Configure Git for the push from the workflow to the repository
       run: |
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
-    - name: Check out the `master` branch - GitHub Actions checks out detached HEAD
-      run: git checkout master
     - name: Install Node dependencies
       run: npm install
     - name: Run the tests
@@ -20,11 +21,6 @@ jobs:
       run: npx tsc index.js --allowJs --declaration --emitDeclarationOnly
     - name: Append time stamp to ensure Git change
       run: echo "// $(date)" >> index.d.ts
-    - name: Authenticate with GitHub using the out-of-the-box workflow PAT
-      run: |
-        # (The commit using this PAT for authentication won't build GitHub Pages)
-        # (The commit using the custom PAT would built GitHub Pages but also start an infinite GitHub Actions workflow loop)
-        git remote set-url origin https://${{github.repository_owner}}:${{github.token}}@github.com/${{github.repository}}
     - name: Stage the Git index changes resulting from the CI script
       run: git add index.d.ts
     - name: Reset unstaged changes so that Git commit won't fail (e.g. package-lock.json, temporary files, …)
